@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}Registro{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-3">Crea tu usuario</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-6">
+                <div class="mb-2">
+                    <label for="username" class="form-label">{{ form.username.label }}</label>
+                    {{ form.username|add_class:"form-control" }}
+                    <div class="form-text">Requerido: 150 caracteres o menos. Letters, digits and @/./+/-/_ only.</div>
+                    {% for error in form.username.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="mb-2">
+                    <label for="email" class="form-label">{{ form.email.label }}</label>
+                    {{ form.email|add_class:"form-control" }}
+                    {% for error in form.email.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="mb-2">
+                    <label for="password1" class="form-label">{{ form.password1.label }}</label>
+                    {{ form.password1|add_class:"form-control" }}
+                    <div class="form-text">
+                        <ul>
+                            <li>Tu contraseña no puede ser demasiado similar a tu otra información personal.</li>
+                            <li>Tu contraseña debe contener al menos 8 caracteres.</li>
+                            <li>Tu contraseña no puede ser una contraseña comúnmente utilizada.</li>
+                            <li>Tu contraseña no puede ser completamente numérica.</li>
+                        </ul>
+                    </div>
+                    {% for error in form.password1.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="mb-2">
+                    <label for="password2" class="form-label">{{ form.password2.label }}</label>
+                    {{ form.password2|add_class:"form-control" }}
+                    <div class="form-text">Ingresa la misma contraseña de antes, para verificación.</div>
+                    {% for error in form.password2.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% if form.non_field_errors %}
+                <div class="text-danger mb-3">
+                    {% for error in form.non_field_errors %}
+                        <div class="error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-primary w-100">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <p class="text-center mt-1">
+        Si tienes actualmente una cuenta, inicia sesión en <a href="{% url 'index' %}" class="text-decoration-none">login</a>.
+    </p>
+</div>
+{% endblock %}
